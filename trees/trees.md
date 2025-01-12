@@ -31,8 +31,9 @@ order of traversal `left --> root --> right`
                 node.left = None
                 
             else:
-                # since left node 
+                # since left node is processed or not present, the root node can be processed
                 traverse.append(node.val)
+                # only right node remains, so it is added to the stack
                 if node.right != None:
                     stack.append(node.right)
         
