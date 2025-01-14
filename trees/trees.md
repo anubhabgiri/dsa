@@ -40,3 +40,75 @@ order of traversal `left --> root --> right`
         return traverse
 
 ```
+
+## [Find Largest Value in Each Tree Row](https://leetcode.com/problems/find-largest-value-in-each-tree-row/description/?envType=problem-list-v2&envId=tree)
+
+Using recursive function
+
+```python
+
+class Solution:
+    def helper(self, node: Optional[TreeNode], level: int) -> None:
+
+        if node == None:
+            
+            return
+        
+        if level not in self.levelMap:
+
+            self.levelMap[level] = node.val
+
+        else:
+
+            self.levelMap[level] = max(node.val, self.levelMap[level])
+        
+        self.helper(node.left, level+1)
+        self.helper(node.right, level+1)
+            
+        
+    def largestValues(self, root: Optional[TreeNode]) -> List[int]:
+        
+        self.levelMap = dict()
+        
+        self.helper(root, 0)
+
+        return [x for x in self.levelMap.values()]
+
+```
+
+Using iterative method 
+
+```python
+class Solution:
+        
+    def largestValues(self, root: Optional[TreeNode]) -> List[int]:
+        
+        levelMap = dict()
+
+        
+        stack = [(root, 0)]
+        
+        while len(stack) > 0:
+
+            node, level = stack.pop(-1)
+            
+            if node == None:
+                
+                continue
+
+            if level not in levelMap:
+
+                levelMap[level] = node.val
+            
+            else:
+
+                levelMap[level] = max(levelMap[level], node.val)
+
+            
+            stack.append((node.left, level+1))
+
+            stack.append((node.right, level+1))
+        
+
+        return [x for x in levelMap.values()]
+```
