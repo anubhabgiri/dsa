@@ -54,3 +54,46 @@ class Solution:
         return traverse
 
 ```
+
+## [654. Maximum Binary Tree](https://leetcode.com/problems/maximum-binary-tree/description/)
+
+```python
+class Solution:
+
+    def maxIndex(self, start: int, stop: int) -> int:
+
+        maxNumIndex = start
+
+        for i in range(start, stop):
+
+            if self.nums[i] > self.nums[maxNumIndex]:
+                
+                maxNumIndex = i
+
+        return maxNumIndex
+
+    def construct(self, start: int, stop: int) -> Optional[TreeNode]:
+
+        if start == stop:
+
+            return None
+
+        maxNumIndex = self.maxIndex(start, stop)
+
+        node = TreeNode(self.nums[maxNumIndex])
+
+        node.left = self.construct(start, maxNumIndex)
+
+        node.right = self.construct(maxNumIndex+1, stop)
+
+        return node
+
+
+    def constructMaximumBinaryTree(self, nums: List[int]) -> Optional[TreeNode]:
+
+        self.nums = nums
+        
+        root = self.construct(0, len(nums))
+
+        return root
+```
