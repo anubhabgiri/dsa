@@ -61,3 +61,32 @@ class Solution:
                 
         return dp[amount]
 ```    
+
+### Maximum Length of Pair Chain
+
+Note: the algorithm is similar to longest increasing subsequence
+
+```python 
+class Solution:
+    
+    def findLongestChain(self, pairs: List[List[int]]) -> int:
+
+        pairs.sort()
+        
+        longest = 0
+
+        dp = [1]*(len(pairs))
+
+        for i in range(len(pairs)):
+
+            for j in range(i):
+
+                if pairs[j][1] < pairs[i][0]:
+
+                    dp[i] = max(dp[i], dp[j]+1 )
+            
+            longest = max(longest, dp[i])
+        
+        return longest
+        
+```
