@@ -187,3 +187,8 @@ class Solution:
 
         return dp[n]
 ```
+
+### [416. Partition Equal Subset Sum](https://leetcode.com/problems/partition-equal-subset-sum/description/?envType=problem-list-v2&envId=50vlu3z5)
+
+It cannot be done by computing the sum and checking if it is odd or even. 
+
