@@ -23,3 +23,49 @@ for element in elements
 
 return stack
 ```
+
+### [1441. Build an Array With Stack Operations](https://leetcode.com/problems/build-an-array-with-stack-operations/description/?envType=problem-list-v2&envId=stack)
+
+```python
+class Solution:
+    def buildArray(self, target: List[int], n: int) -> List[str]:
+        stack = []
+        j = 0
+        for i in range(1, n+1):
+            if i == target[j]:
+                stack.append("Push")
+                j += 1
+            else:
+                stack.extend(["Push", "Pop"])
+
+            if j >= len(target):
+                break
+
+        return stack
+```
+
+### [1700. Number of Students Unable to Eat Lunch](https://leetcode.com/problems/number-of-students-unable-to-eat-lunch/description/?envType=problem-list-v2&envId=stack)
+
+Intuition: This problem cannot be solved by simply computing the total number of mismatches as the order in which the sandwich appears is important
+
+```python
+from collections import deque
+class Solution:
+    def countStudents(self, students: List[int], sandwiches: List[int]) -> int:
+        sandwichStack = list(reversed(sandwiches))
+        studentQueue = deque(students)
+
+        lastServed = 0
+
+        while len(studentQueue) > 0 and lastServed < len(studentQueue):
+
+            if sandwichStack[-1] == studentQueue[0]:
+                sandwichStack.pop(-1)
+                studentQueue.popleft()
+                lastServed = 0
+            else:
+                studentQueue.append(studentQueue.popleft())
+                lastServed += 1
+
+        return len(studentQueue)
+```
