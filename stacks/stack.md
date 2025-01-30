@@ -69,3 +69,31 @@ class Solution:
 
         return len(studentQueue)
 ```
+
+### [Next Greater Element I](https://leetcode.com/problems/next-greater-element-i/description/?envType=problem-list-v2&envId=stack)
+
+```python
+from collections import Counter
+class Solution:
+    def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        mapper = {value: index for index, value in enumerate(nums1)}
+        ans = [-1]*(len(nums1))
+
+        stack = []
+        sol = [-1]*(len(nums2))
+
+        for i in reversed(range(len(nums2))):
+
+            while len(stack) > 0 and stack[-1] < nums2[i]:
+                stack.pop()
+            
+            if len(stack) > 0:
+                sol[i] = stack[-1]
+
+            stack.append(nums2[i])
+            if nums2[i] in mapper:
+                ans[mapper[nums2[i]]] = sol[i]
+
+
+        return ans
+```
