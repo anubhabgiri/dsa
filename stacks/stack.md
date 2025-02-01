@@ -73,7 +73,7 @@ class Solution:
 ### [Next Greater Element I](https://leetcode.com/problems/next-greater-element-i/description/?envType=problem-list-v2&envId=stack)
 
 ```python
-from collections import Counter
+
 class Solution:
     def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
         mapper = {value: index for index, value in enumerate(nums1)}
@@ -94,6 +94,60 @@ class Solution:
             if nums2[i] in mapper:
                 ans[mapper[nums2[i]]] = sol[i]
 
+
+        return ans
+```
+
+
+### [3412. Find Mirror Score of a String](https://leetcode.com/problems/find-mirror-score-of-a-string/description/?envType=problem-list-v2&envId=stack)
+
+```python
+class Solution:
+    def calculateScore(self, s: str) -> int:
+        mapper = [[] for i in range(26)]
+        score = 0
+        for i in range(len(s)):
+
+            t = ord(s[i]) - ord('a')
+            m = 25-t
+
+            if len(mapper[m]) > 0:
+                score += (i-mapper[m].pop())
+            else:
+                mapper[t].append(i)
+        
+        return score
+```
+
+### [1541. Minimum Insertions to Balance a Paranthesis String](https://leetcode.com/problems/minimum-insertions-to-balance-a-parentheses-string/description/?envType=problem-list-v2&envId=stack)
+
+```python
+class Solution:
+    def minInsertions(self, s: str) -> int:
+        stack = 0
+        ans = 0
+        i = 0
+
+        while i < len(s):
+            # print(s[i:2+i])
+            if s[i] == '(':
+                stack += 1
+            elif s[i:2+i] == '))':
+                if stack > 0:
+                    stack -= 1
+                else:
+                    ans += 1
+                i += 1
+            else:
+                if stack > 0:
+                    ans += 1
+                    stack -= 1
+                else:
+                    ans += 2
+
+            i += 1
+
+        ans += 2*stack
 
         return ans
 ```
