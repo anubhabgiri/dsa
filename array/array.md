@@ -51,3 +51,60 @@ class Solution:
             ans.append(len(colors.keys()))
         return ans
 ```
+
+
+### [1352. Product of the Last K Numbers](https://leetcode.com/problems/product-of-the-last-k-numbers/)
+
+This follows the approach of prefix sum but also takes into consideration when 0 appears
+
+```python
+class ProductOfNumbers:
+
+    def __init__(self):
+        self.products = [1]
+
+    def add(self, num: int) -> None:
+
+        if num == 0:
+            self.products = [1]
+        else:
+            self.products.append(num*self.products[-1])
+
+    def getProduct(self, k: int) -> int:
+        if k >= len(self.products):
+            return 0
+        else:
+            return self.products[-1]//self.products[len(self.products)-k-1]
+```
+
+### [228. Summary Ranges](https://leetcode.com/problems/summary-ranges/?envType=problem-list-v2&envId=array)
+
+```python
+
+class Solution:
+    def summaryRanges(self, nums: List[int]) -> List[str]:
+        if len(nums) == 0:
+            return []
+        ans = []
+        start = nums[0]
+        end = None
+        for i in range(1, len(nums)):
+            if nums[i] != nums[i-1] + 1:
+
+                if end != None and end != start:
+                    s = f"{start}->{end}"
+                else:
+                    s = str(start)
+                ans.append(s)
+                start = nums[i]
+                end = None
+            else:
+                end = nums[i]
+
+        if end != None and end != start:
+            s = f"{start}->{end}"
+        else:
+            s = str(start)
+        ans.append(s)
+        return ans
+```
