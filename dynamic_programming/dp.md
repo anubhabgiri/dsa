@@ -190,5 +190,49 @@ class Solution:
 
 ### [416. Partition Equal Subset Sum](https://leetcode.com/problems/partition-equal-subset-sum/description/?envType=problem-list-v2&envId=50vlu3z5)
 
-It cannot be done by computing the sum and checking if it is odd or even. 
+It cannot be done by computing the sum and checking if it is odd or even. It can be solved using a 0/1 knapsack approach.
+
+```python
+class Solution:
+    
+    def canPartition(self, nums: List[int]) -> bool:
+        
+        # compute the total sum of the elements
+        sum = reduce(lambda a,b: a+b, nums)
+
+        # boundary case: if the total sum is not even, it is guaranteed that equal subset 
+        # cannot be achieved 
+        if sum%2 != 0:
+            
+            return False
+
+        target = sum//2
+        
+        n = len(nums)
+
+        # create the memoization array 
+        tab = [[0]*(target + 1) for y in range(n + 1)]
+
+        # iterate each element
+        # this is the outer loop since we do not want to count the same element twice
+        for i in range(1, n+1):
+            # for each element iterate through target weights from 1 to actual target
+            for w in range(1, target+1):
+                
+                if nums[i-1] <= w:
+                    # if element is less or equal to the current target
+                    # we consider if it makes sense to include the element or not
+                    # and take the max of it
+                    include_item = nums[i-1] + tab[i-1][w-nums[i-1]]
+                    exclude_item = tab[i-1][w]
+                    tab[i][w] = max(include_item, exclude_item)
+                else:
+                    # if the element is greater then there is no computation
+                    # it is simply the same as excluding the item in the previous step
+                    # this step is important otherwise, it will continue to store the initialization val
+                    tab[i][w] = tab[i-1][w]
+        # the requirement is fulfilled only if the max sum achievable with given elements 
+        # is equal to target sum
+        return tab[n][target] == target
+```
 
